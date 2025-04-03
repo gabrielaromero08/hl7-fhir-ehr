@@ -4,7 +4,7 @@ from fhir.resources.condition import Condition
 import json
 
 # Conectar a la colección de condiciones en MongoDB
-collection = connect_to_mongodb("SampleConditionService", "conditions")
+collection = connect_to_mongodb("SamplePatientService", "conditions")
 
 def WriteCondition(condition_dict: dict):
     try:
