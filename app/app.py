@@ -50,23 +50,23 @@ from fastapi import HTTPException, Request
 @app.post("/condition", response_model=dict)
 async def add_condition(request: Request):
     try:
-        print("📌 Recibiendo solicitud POST en /condition")  # Verifica que la solicitud llega
+        print("Recibiendo solicitud POST en /condition")  # Verifica que la solicitud llega
 
         new_condition_dict = await request.json()
-        print(f"📌 Datos recibidos: {new_condition_dict}")  # Imprime los datos enviados desde Postman
+        print(f" Datos recibidos: {new_condition_dict}")  # Imprime los datos enviados desde Postman
 
         status, condition_id = WriteCondition(new_condition_dict)
-        print(f"📌 Resultado de WriteCondition: {status}, ID: {condition_id}")  # Muestra si se guardó bien o no
+        print(f"Resultado de WriteCondition: {status}, ID: {condition_id}")  # Muestra si se guardó bien o no
 
         if status == 'success':
-            print(f"✅ Condición guardada con ID {condition_id}")
+            print(f"Condición guardada con ID {condition_id}")
             return {"_id": condition_id}  # Retorna el ID de la condición creada
         else:
-            print(f"❌ Error insertando en la BD: {status}")
+            print(f" Error insertando en la BD: {status}")
             raise HTTPException(status_code=500, detail=f"Validating error: {status}")
 
     except Exception as e:
-        print(f"❌ ERROR en POST /condition: {str(e)}")  # Si algo falla, muestra el error exacto
+        print(f" ERROR en POST /condition: {str(e)}")  # Si algo falla, muestra el error exacto
         raise HTTPException(status_code=500, detail=f"Error desconocido: {str(e)}")
 
 
