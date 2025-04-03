@@ -52,7 +52,7 @@ async def add_condition(request: Request):
     try:
         print("Recibiendo solicitud POST en /condition")  # Verifica que la solicitud llega
 
-        new_condition_dict = await request.json()
+        new_condition_dict = dict(await request.json())
         print(f" Datos recibidos: {new_condition_dict}")  # Imprime los datos enviados desde Postman
 
         status, condition_id = WriteCondition(new_condition_dict)
