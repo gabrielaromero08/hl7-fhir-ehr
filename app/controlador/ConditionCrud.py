@@ -11,7 +11,7 @@ def WriteCondition(condition_dict: dict):
         # Validar con el modelo FHIR
         cond = Condition.model_validate(condition_dict)
     except Exception as e:
-        print(f"❌ Error validando la condición: {e}")
+        print(f"❌ Error validando el artefacto condition: {e}")
         return f"errorValidating: {str(e)}", None
 
     # Convertir el modelo validado a JSON
