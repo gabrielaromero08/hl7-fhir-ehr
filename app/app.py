@@ -43,6 +43,15 @@ async def add_patient(request: Request):
         return {"_id":patient_id}  # Return patient id
     else:
         raise HTTPException(status_code=500, detail=f"Validating error: {status}")
+        
+@app.post("/condition", response_model=dict)
+async def add_condition(request: Request):
+    new_condition_dict = dict(await request.json())
+    status, condition_id = WriteCondition(new_condition_dict)
+    if status == 'success':
+        return {"_id": condition_id}  # Retorna el ID de la condición creada
+    else:
+        raise HTTPException(status_code=500, detail=f"Validating error: {status}")
 
 if __name__ == '__main__':
     import uvicorn
