@@ -39,21 +39,3 @@ def GetPatientByIdentifier(patientSystem,patientValue):
     except Exception as e:
         return f"error encontrado:{str(e)}",None
 
-def WriteCondition(condition_dict: dict):
-    try:
-        # Validar la estructura de la condición con el modelo FHIR
-        cond = Condition.model_validate(condition_dict)
-    except Exception as e:
-        return f"errorValidating: {str(e)}", None
-
-    # Convertir el modelo validado a JSON
-    validated_condition_json = cond.model_dump()
-
-    # Insertar la condición en la base de datos
-    result = collection.insert_one(condition_dict)
-
-    if result:
-        inserted_id = str(result.inserted_id)
-        return "success", inserted_id
-    else:
-        return "errorInserting", None
