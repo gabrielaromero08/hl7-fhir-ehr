@@ -30,13 +30,13 @@ def WriteCondition(condition_dict: dict):
         print("❌ Error al insertar en MongoDB")
         return "errorInserting", None
         
-def GetConditionByIdentifier(conditionSystem, conditionValue):
+def GetConditionsByPatient(patient_reference: str):
     try:
-        condition = collection.find_one({"identifier.system": conditionSystem, "identifier.value": conditionValue})
-        print("condition retornada:", condition)
-        if condition:
-            condition["_id"] = str(condition["_id"])
-            return "success", condition
-        return "notFound", None
+        conditions = list(collection.find({"subject.reference": patient_reference}))
+        for cond in conditions:
+            cond["_id"] = str(cond["_id"])
+        if conditions:
+            return "success", conditions
+        return "notFound", []
     except Exception as e:
-        return f"error encontrado: {str(e)}", None
+        return f"error encontrado: {str(e)}", []
