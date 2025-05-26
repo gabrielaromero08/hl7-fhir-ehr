@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Request
 import uvicorn
 from app.controlador.PatientCrud import GetPatientById,WritePatient,GetPatientByIdentifier
 from app.controlador.ConditionCrud import WriteCondition
+from app.controlador.ConditionCrud import GetConditionsByPatient
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -48,13 +49,24 @@ async def add_patient(request: Request):
 from fastapi import HTTPException, Request
 
 @app.get("/condition", response_model=dict)
-async def get_condition_by_identifier(system: str, value: str):
-    print("Solicitud condición:", system, value)
-    status, condition = GetConditionByIdentifier(system, value)
+async def get_conditions_by_patient(patient: str = Query(None)):
+    if not patient:
+        raise HTTPException(status_code=400, detail="Missing patient parameter")
+    
+    status, conditions = GetConditionsByPatient(patient)
+    
     if status == 'success':
-        return condition  # Return condition
+        return {
+            "resourceType": "Bundle",
+            "type": "searchset",
+            "entry": [{"resource": cond} for cond in conditions]
+        }
     elif status == 'notFound':
-        raise HTTPException(status_code=204, detail="Condition not found")
+        return {
+            "resourceType": "Bundle",
+            "type": "searchset",
+            "entry": []
+        }
     else:
         raise HTTPException(status_code=500, detail=f"Internal error. {status}")
 
