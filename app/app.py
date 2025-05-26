@@ -47,6 +47,17 @@ async def add_patient(request: Request):
         
 from fastapi import HTTPException, Request
 
+@app.get("/condition", response_model=dict)
+async def get_condition_by_identifier(system: str, value: str):
+    print("Solicitud condición:", system, value)
+    status, condition = GetConditionByIdentifier(system, value)
+    if status == 'success':
+        return condition  # Return condition
+    elif status == 'notFound':
+        raise HTTPException(status_code=204, detail="Condition not found")
+    else:
+        raise HTTPException(status_code=500, detail=f"Internal error. {status}")
+
 @app.post("/condition", response_model=dict)
 async def add_condition(request: Request):
     try:
