@@ -48,7 +48,7 @@ async def add_patient(request: Request):
         
 from fastapi import HTTPException, Request
 
-@app.get("/condition/by-identifier", response_model=dict)
+@app.get("/condition", response_model=dict)
 async def get_conditions_by_patient_identifier(system: str, value: str):
     # Buscar paciente por identificador
     status, patient = GetPatientByIdentifier(system, value)
