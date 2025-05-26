@@ -29,3 +29,14 @@ def WriteCondition(condition_dict: dict):
     else:
         print("❌ Error al insertar en MongoDB")
         return "errorInserting", None
+        
+def GetConditionByIdentifier(conditionSystem, conditionValue):
+    try:
+        condition = collection.find_one({"identifier.system": conditionSystem, "identifier.value": conditionValue})
+        print("condition retornada:", condition)
+        if condition:
+            condition["_id"] = str(condition["_id"])
+            return "success", condition
+        return "notFound", None
+    except Exception as e:
+        return f"error encontrado: {str(e)}", None
