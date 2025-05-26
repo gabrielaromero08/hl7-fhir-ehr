@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException, Request
 import uvicorn
 from app.controlador.PatientCrud import GetPatientById,WritePatient,GetPatientByIdentifier
 from app.controlador.ConditionCrud import WriteCondition
-from app.controlador.ConditionCrud import GetConditionsByPatientIdentifier
+from app.controlador.ConditionCrud import GetConditionsByPatient
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -49,11 +49,11 @@ async def add_patient(request: Request):
 from fastapi import HTTPException, Request
 
 @app.get("/condition", response_model=dict)
-async def get_conditions_by_identifier(identifier: str = None):
-    if not identifier:
-        raise HTTPException(status_code=400, detail="Missing identifier parameter")
+async def get_conditions_by_patient(patient: str = None):
+    if not patient:
+        raise HTTPException(status_code=400, detail="Missing patient parameter")
     
-    status, conditions = GetConditionsByPatientIdentifier(identifier)
+    status, conditions = GetConditionsByPatient(patient)
     
     if status == 'success':
         return {
