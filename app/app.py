@@ -55,7 +55,7 @@ async def get_conditions_by_patient_identifier(system: str, value: str):
     if status != 'success':
         raise HTTPException(status_code=404, detail="Paciente no encontrado")
     
-    patient_id = patient["id"]
+    patient_id = str(patient["_id"])
     patient_reference = f"Patient/{patient_id}"
 
     # Buscar condiciones usando la referencia del paciente
