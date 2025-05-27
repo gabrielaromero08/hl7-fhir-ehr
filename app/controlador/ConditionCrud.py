@@ -40,7 +40,7 @@ def GetConditionsByPatientReference(patient_reference):
         else:
             return "notFound", []
     except Exception as e:
-        print(f"Error buscando condiciones: {e}")  # <-- Aquí imprime el error real
+        print(f"❌ Error en GetConditionsByPatientReference: {e}")  # 👈 esto mostrará el error en los logs de Render
         return f"error: {str(e)}", []
 
 
